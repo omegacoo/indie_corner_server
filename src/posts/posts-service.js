@@ -1,9 +1,16 @@
 const PostsService = {
-    getAllPosts(knex){
+    getById(knex, id){
         return knex
-            .select('*')
             .from('posts')
-            // here is where you add something like '.orderBy()' to filter returns
+            .select('*')
+            .where('forum_id', id)
+    },
+    getForumById(knex, id){
+        return knex
+            .from('forums')
+            .select('*')
+            .where('id', id)
+            .first()
     }
 }
 

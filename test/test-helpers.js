@@ -37,21 +37,21 @@ function makePostsArray(){
             id: 1,
             user_id: 1,
             forum_id: 3,
-            time_submitted: moment().tz('America/Los_Angeles').format(),
+            time_submitted: '2020-05-20T13:18:09-07:00',
             content: 'This game is super cool!'
         },
         {
             id: 2,
             user_id: 1,
             forum_id: 2,
-            time_submitted: moment().tz('America/Los_Angeles').format(),
+            time_submitted: '2020-05-20T13:18:09-07:00',
             content: 'What a silly game!'
         },
         {
             id: 3,
             user_id: 1,
             forum_id: 3,
-            time_submitted: moment().tz('America/Los_Angeles').format(),
+            time_submitted: '2020-05-20T13:18:13-07:00',
             content: 'Right?!'
         },
     ];
