@@ -11,7 +11,7 @@ const serializeForums = forum => ({
 });
 
 forumRouter
-    .route('/forums')
+    .route('/')
     .get((req, res, next) => {
         ForumsService.getAllForums(
             req.app.get('db')
