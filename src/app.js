@@ -15,7 +15,7 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/forums', forumsRouter);
+app.use('/api/forums', forumsRouter);
 
 app.use('/', (req, res) => {
     res.send('Nothing found.');
