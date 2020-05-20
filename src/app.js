@@ -5,6 +5,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 
+const forumsRouter = require('./forums/forums-router');
+
 const app = express();
 
 const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
@@ -12,6 +14,8 @@ const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
+
+app.use('/forums', forumsRouter);
 
 app.use('/', (req, res) => {
     res.send('Nothing found.');
