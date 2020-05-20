@@ -4,7 +4,7 @@ const xss = require('xss');
 
 const forumRouter = express.Router();
 
-const serializeForums = forum => ({
+const serializeForum = forum => ({
     id: forum.id,
     title: xss(forum.title),
     blurb: xss(forum.blurb)
@@ -17,7 +17,7 @@ forumRouter
             req.app.get('db')
         )
             .then(forums => {
-                res.json(forums.map(serializeForums))
+                res.json(forums.map(serializeForum))
             })
             .catch(next)
     })
