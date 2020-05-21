@@ -57,5 +57,29 @@ describe('Auth endpoints', () => {
                     .expect(400, { error: { message: `Missing '${field}' in request body` }})
             })
         })
+
+        it(`responds with 401 'invalid user_name or password' when user_name is wrong`, () => {
+            const invalidUser = {
+                user_name: 'wrong',
+                password: 'password'
+            };
+
+            return supertest(app)
+                .post('/api/auth/login')
+                .send(invalidUser)
+                .expect(401, { error: { message: `Incorrect user_name or password` }})
+        })
+
+        it(`responds with 401 'invalid user_name or password' when password is wrong`, () => {
+            const invalidUser = {
+                user_name: 'test_one',
+                password: 'wrongword'
+            };
+
+            return supertest(app)
+                .post('/api/auth/login')
+                .send(invalidUser)
+                .expect(401, { error: { message: `Incorrect user_name or password` }})
+        })
     })
 })
