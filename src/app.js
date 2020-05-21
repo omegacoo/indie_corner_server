@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config');
 
 const forumsRouter = require('./forums/forums-router');
 const postsRouter = require('./posts/posts-router');
+const authRouter = require('./auth/auth-router');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 
 app.use('/api/forums', forumsRouter);
 app.use('/api/posts', postsRouter);
+app.use('/api/auth', authRouter);
 
 app.use('/', (req, res) => {
     res.send('Nothing found.');
