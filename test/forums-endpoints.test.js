@@ -4,7 +4,7 @@ const helpers = require('./test-helpers');
 const jwt = require('jsonwebtoken');
 const config = require('../src/config');
 
-describe.only('Forums endpoints', () => {
+describe('Forums endpoints', () => {
     let db;
 
     before('make knex instance', () => {
@@ -63,7 +63,7 @@ describe.only('Forums endpoints', () => {
             expiresIn: config.JWT_EXPIRY_SECONDS
         });
 
-        let requiredFields = ['title', 'blurb'];
+        const requiredFields = ['title', 'blurb'];
 
         requiredFields.forEach(field => {
             const postAttemptBody = {
@@ -71,7 +71,7 @@ describe.only('Forums endpoints', () => {
                 blurb: testForum.blurb
             };
 
-            it(`it responds with 400 error when '${field} is missing`, () => {
+            it(`responds with 400 error when '${field} is missing`, () => {
                 delete postAttemptBody[field];
 
                 return supertest(app)

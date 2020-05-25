@@ -1,8 +1,10 @@
 const express = require('express');
 const PostsService = require('./posts-service');
 const xss = require('xss');
+const jwt = require('jsonwebtoken');
 
 const postsRouter = express.Router();
+const jsonParser = express.json();
 
 const serializePost = post => ({
     id: post.id,
@@ -43,6 +45,58 @@ postsRouter
                 res.json(posts.map(serializePost))
             })
             .catch(next)
+    })
+    .post(jsonParser, (req, res, next) => {
+        const { user_id, forum_id, time_submitted, content } = req.body;
+        const newPost = { user_id, forum_id, time_submitted, content };
+        const token = req.get('cookies');
+        let ok = true;
+
+        if(!token){
+            return res.status(401).end();
+        }
+
+        let payload;
+        try {
+            payload = jwt.verify(token, process.env.JWT_SECRET)
+        } catch(e) {
+            if(e instanceof jwt.JsonWebTokenError){
+                return res.status(401).end();
+            }
+            return res.status(400).end();
+        }
+
+        const requiredFields = [
+            'user_id', 
+            'forum_id', 
+            'time_submitted', 
+            'content'
+        ];
+
+        requiredFields.forEach(field => {
+            if(!newPost[field] && ok){
+                ok = false;
+
+                return res.status(400).json({
+                    error: {
+                        message: `Missing '${field}' from request body`
+                    }
+                })
+            }
+        })
+
+        if(ok){
+            PostsService.addNewPost(
+                req.app.get('db'),
+                newPost
+            )
+                .then(() => {
+                    res
+                        .status(201)
+                        .end()
+                })
+                .catch(next)
+        }
     })
 
 module.exports = postsRouter;

@@ -11,6 +11,11 @@ const PostsService = {
             .select('*')
             .where('id', id)
             .first()
+    },
+    addNewPost(knex, newPost){
+        return knex
+            .into('posts')
+            .insert(newPost)
     }
 }
 
