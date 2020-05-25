@@ -99,4 +99,47 @@ postsRouter
         }
     })
 
+postsRouter
+    .route('/remove_post/:post_id')
+    .delete((req, res, next) => {        
+        const post_id = req.params.post_id;
+        const token = req.get('cookies');
+
+        if(!token){
+            return res.status(401).end();
+        }
+
+        let payload;
+        try {
+            payload = jwt.verify(token, process.env.JWT_SECRET)
+        } catch(e) {
+            if(e instanceof jwt.JsonWebTokenError){
+                return res.status(401).end();
+            }
+            return res.status(400).end();
+        }
+
+        if(!post_id){
+            return res.status(400).json({
+                error: {
+                    message: `Missing 'post_id' in request body`
+                }
+            })
+        }
+
+        PostsService.getPostById(
+            req.app.get('db'),
+            req.params.post_id
+        )
+            .then(post => {
+                if(!post){
+                    return res.status(404).json({
+                        error: { message: `Post doesn't exist` }
+                    })
+                }
+                next()
+            })
+            .catch(next)
+    })
+
 module.exports = postsRouter;

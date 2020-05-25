@@ -16,6 +16,13 @@ const PostsService = {
         return knex
             .into('posts')
             .insert(newPost)
+    },
+    getPostById(knex, id){
+        return knex
+            .from('posts')
+            .select('*')
+            .where('id', id)
+            .first()
     }
 }
 

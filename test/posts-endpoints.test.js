@@ -136,7 +136,7 @@ describe('Posts endpoints', () => {
                 .insert(testForum)
         })
 
-        context(`Give forum doesn't exist`, () => {
+        context(`Given forum doesn't exist`, () => {
             it(`responds with 404 and 'Forum doesn't exist'`, () => {
                 const forum_id = 123456;
 
@@ -175,6 +175,85 @@ describe('Posts endpoints', () => {
                         .set('cookies', testToken)
                         .expect(400, { error: { message: `Missing '${field}' from request body` } })
                 })
+            })
+        })
+    })
+
+    describe.only(`DELETE /api/posts/:post_id`, () => {
+        const testUser = helpers.makeTestUser();
+
+        const testForum = {
+            id: 1,
+            title: 'Test forum',
+            blurb: 'Test blurb'
+        };
+
+        const testPost = {
+            id: 1,
+            user_id: 1,
+            forum_id: testForum.id,
+            time_submitted: 'now',
+            content: 'This is the first test post, thanks!'
+        };
+
+        const user_name = testUser.user_name;
+
+        const testToken = jwt.sign({ user_name }, process.env.JWT_SECRET, {
+            algorithm: 'HS256',
+            expiresIn: config.JWT_EXPIRY_SECONDS
+        });
+
+
+        beforeEach('insert user', () => {
+            return db
+                .into('users')
+                .insert(testUser)
+        })
+
+        beforeEach('insert forum', () => {
+            return db
+                .into('forums')
+                .insert(testForum)
+        })
+
+        beforeEach('insert post', () => {
+            return db
+                .into('posts')
+                .insert(testPost)
+        })
+
+        it(`responds with 401 error when 'token' is not provided`, () => {
+            return supertest(app)
+                .delete('/api/posts/remove_post/123')
+                .expect(401)
+        })        
+
+        it(`responds with 401 error when 'token' is not valid`, () => {
+            const badToken = testToken + 'abracadabra';
+
+            return supertest(app)
+                .delete('/api/posts/remove_post/123')
+                .set('cookies', badToken)
+                .expect(401)
+        })
+
+        context(`Given post doesn't exist`, () => {
+            it(`responds with 404 error`, () => {
+                return supertest(app)
+                    .delete(`/api/posts/remove_post/123`)
+                    .set('cookies', testToken)
+                    .expect(404)
+            })
+        })
+
+        context(`Given post does exist`, () => {
+            it(`responds with 200`, () => {
+                const post_id = 1;
+
+                return supertest(app)
+                    .delete(`/api/posts/remove_post/${post_id}`)
+                    .set('cookies', testToken)
+                    .expect(200)
             })
         })
     })
