@@ -81,5 +81,23 @@ describe.only('Forums endpoints', () => {
                     .expect(400, { error: { message: `Missing '${field}' from request body` } })
             })
         })
+
+        it(`responds with 401 error when 'token' is not valid`, () => {
+            const badToken = testToken + 'abracadabra';
+
+            return supertest(app)
+                .post('/api/forums')
+                .send(testForum)
+                .set('cookies', badToken)
+                .expect(401)
+        })
+
+        it(`responds with 201 when forum is created`, () => {
+            return supertest(app)
+                .post('/api/forums')
+                .send(testForum)
+                .set('cookies', testToken)
+                .expect(201)
+        })
     })
 })
