@@ -54,7 +54,7 @@ describe('Posts endpoints', () => {
 
         context('Given there are posts in the database', () => {
             const testForums = helpers.makeForumsArray();
-            const testUsers = helpers.makeUserArray();
+            const testUser = helpers.makeTestUser();
             const testPosts = helpers.makePostsArray();
 
             beforeEach('insert forums', () => {
@@ -66,7 +66,7 @@ describe('Posts endpoints', () => {
             beforeEach('insert users', () => {
                 return db
                     .into('users')
-                    .insert(testUsers)
+                    .insert(testUser)
             })
 
             beforeEach('insert posts', () => {

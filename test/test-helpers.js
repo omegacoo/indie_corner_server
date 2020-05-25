@@ -20,15 +20,13 @@ function makeForumsArray(){
     ];
 }
 
-function makeUserArray(){
-    return [
-        {
+function makeTestUser(){
+    return {
             id: 1,
             user_name: 'omegacoo',
             password: 'password',
             email: 'bsumser@yahoo.com'
-        }
-    ];
+        };
 }
 
 function makePostsArray(){
@@ -59,6 +57,6 @@ function makePostsArray(){
 
 module.exports = {
     makeForumsArray,
-    makeUserArray,
+    makeTestUser,
     makePostsArray
 };
