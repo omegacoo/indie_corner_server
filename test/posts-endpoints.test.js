@@ -179,7 +179,7 @@ describe('Posts endpoints', () => {
         })
     })
 
-    describe.only(`DELETE /api/posts/:post_id`, () => {
+    describe(`DELETE /api/posts/remove_post/:post_id`, () => {
         const testUser = helpers.makeTestUser();
 
         const testForum = {

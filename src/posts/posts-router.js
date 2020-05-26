@@ -129,13 +129,21 @@ postsRouter
 
         PostsService.getPostById(
             req.app.get('db'),
-            req.params.post_id
+            post_id
         )
             .then(post => {
                 if(!post){
                     return res.status(404).json({
                         error: { message: `Post doesn't exist` }
                     })
+                } else {
+                    PostsService.removePostById(
+                        req.app.get('db'),
+                        post_id
+                    )
+                        .then(response => {
+                            res.status(200).end()
+                        })
                 }
                 next()
             })

@@ -70,4 +70,57 @@ forumRouter
             .catch(next)
     })
 
+forumRouter
+    .route('/remove_forum/:forum_id')
+    .delete((req, res, next) => {
+        const forum_id = req.params.forum_id;
+        const token = req.get('cookies');
+
+        if(!token){
+            return res.status(401).end();
+        }
+
+        let payload;
+        try {
+            payload = jwt.verify(token, process.env.JWT_SECRET)
+        } catch(e) {
+            if(e instanceof jwt.JsonWebTokenError){
+                return res.status(401).end();
+            }
+            return res.status(400).end();
+        }
+
+        if(!forum_id){
+            return res.status(400).json({
+                error: {
+                    message: `Missing 'forum_id' in request body`
+                }
+            })
+        }
+
+        ForumsService.getForumById(
+            req.app.get('db'),
+            forum_id
+        )
+            .then(forum => {
+                if(!forum){
+                    return res.status(404).json({
+                        error: {
+                            message: `Forum doesn't exist`
+                        }
+                    })
+                } else {
+                    ForumsService.removeForumById(
+                        req.app.get('db'),
+                        forum_id
+                    )
+                        .then(response => {
+                            res.status(200).end()
+                        })
+                }
+                next()
+            })
+            .catch(next)
+    })
+
 module.exports = forumRouter;

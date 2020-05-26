@@ -23,6 +23,13 @@ const PostsService = {
             .select('*')
             .where('id', id)
             .first()
+    },
+    removePostById(knex, id){
+        return knex
+            .from('posts')
+            .select('*')
+            .where('id', id)
+            .del()
     }
 }
 

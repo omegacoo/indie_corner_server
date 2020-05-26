@@ -9,6 +9,24 @@ const ForumsService = {
         return knex
             .into('forums')
             .insert(newForum)
+    },
+    getForumById(knex, id){
+        return knex
+            .from('forums')
+            .select('*')
+            .where('id', id)
+            .first()
+    },
+    removeForumById(knex, id){
+        return knex
+            .from('forums')
+            .select('*')
+            .where('id', id)
+            .del()
+            .from('posts')
+            .select('*')
+            .where('forum_id', id)
+            .del()
     }
 }
 
