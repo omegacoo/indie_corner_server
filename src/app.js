@@ -14,9 +14,14 @@ const app = express();
 
 const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 
+const corsOptions = {
+    origin: ['http://localhost:3000', 'https://pantry-buddy.com'],
+    exposedHeaders: ['X-token', 'user_id']
+};
+
 app.use(morgan(morganOption));
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/api/forums', forumsRouter);
 app.use('/api/posts', postsRouter);
