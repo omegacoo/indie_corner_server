@@ -23,6 +23,9 @@ const ForumsService = {
             .select('*')
             .where('id', id)
             .del()
+    },
+    removePostsOfForum(knex, id){
+        return knex
             .from('posts')
             .select('*')
             .where('forum_id', id)

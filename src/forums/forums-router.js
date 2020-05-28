@@ -115,7 +115,13 @@ forumRouter
                         forum_id
                     )
                         .then(response => {
-                            res.status(200).end()
+                            ForumsService.removePostsOfForum(
+                                req.app.get('db'),
+                                forum_id
+                            )
+                                .then(response => {
+                                    res.status(200).end()
+                                })
                         })
                 }
                 next()
