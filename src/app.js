@@ -23,10 +23,10 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors(corsOptions));
 
-app.use('api/forums', forumsRouter);
-app.use('api/posts', postsRouter);
-app.use('api/auth', authRouter);
-app.use('api/register', registerRouter);
+app.use('/api/forums', forumsRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/register', registerRouter);
 
 app.use('/', (req, res) => {
     res.send('Nothing found.');
