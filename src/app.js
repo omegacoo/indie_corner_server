@@ -15,7 +15,7 @@ const app = express();
 const morganOption = (NODE_ENV === 'production') ? 'tiny' : 'common';
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://indie-corner-client.now.sh/'],
+    // origin: ['http://localhost:3000', 'https://indie-corner-client.now.sh'],
     exposedHeaders: ['X-token', 'user_id']
 };
 
