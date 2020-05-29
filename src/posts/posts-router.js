@@ -9,6 +9,7 @@ const jsonParser = express.json();
 const serializePost = post => ({
     id: post.id,
     user_id: post.user_id,
+    user_name: post.user_name,
     forum_id: post.forum_id,
     time_submitted: post.time_submitted,
     content: xss(post.content)

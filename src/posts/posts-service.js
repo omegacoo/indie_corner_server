@@ -1,8 +1,9 @@
 const PostsService = {
     getById(knex, id){
         return knex
+            .select(['posts.*', 'users.user_name'])
             .from('posts')
-            .select('*')
+            .leftJoin('users', 'users.id', 'posts.user_id')
             .where('forum_id', id)
     },
     getForumById(knex, id){

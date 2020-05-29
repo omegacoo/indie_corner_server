@@ -3,7 +3,6 @@ const ForumsService = {
         return knex
             .select('*')
             .from('forums')
-            // here is where you add something like '.orderBy()' to filter returns
     },
     addNewForum(knex, newForum){
         return knex
