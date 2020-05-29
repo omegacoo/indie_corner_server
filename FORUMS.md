@@ -36,7 +36,7 @@
 
 * **Sample Call**
 
-    * ```
+    ```
     fetch(
         '/api/forums',
         {
@@ -45,7 +45,7 @@
     )
     ```
 
-    * ```
+    ```
     fetch(
         '/api/forums',
         {
@@ -65,7 +65,7 @@
     )
     ```
 
-    * ```
+    ```
     fetch(
         '/api/forums/remove_forum/:forum_id',
         {
